@@ -1,4 +1,5 @@
 import { createSignal, createResource, Show, For } from 'solid-js';
+import { makePersisted } from '@solid-primitives/storage';
 import "./css/index.css";
 import "./css/button.css";
 import "./css/card.css";
@@ -14,8 +15,13 @@ const getWallets = async () => {
 };
 
 export function CardanoWalletConnectComponent() {
-    const [wallets] = createResource(getWallets);
+    const [connectedWallet, setConnectedWallet] = makePersisted(createSignal(null), {
+        name: 'cardanoWallet',
+        serialize: JSON.stringify,
+        deserialize: JSON.parse,
+    });
 
+    const [wallets] = createResource(getWallets);
     const [dialogRef, setDialogRef] = createSignal<HTMLDialogElement | null>(null);
     
     const openDialog = () => {
@@ -30,10 +36,10 @@ export function CardanoWalletConnectComponent() {
         }
     };
     
-    function connectToWallet(wallet: any) {
-        console.log("Connecting to wallet: ", wallet.name);
+    async function connectToWallet(wallet: any) {
         if (wallet) {
             wallet.enable().then(() => {
+                setConnectedWallet(wallet.name);
                 console.log(`${wallet.name} connected`);
                 closeDialog();
             }).catch((error: any) => {
@@ -58,20 +64,24 @@ export function CardanoWalletConnectComponent() {
                             {
                                 wallets() && Object.keys(wallets()).length > 0 ? (
                                     <For each={Object.keys(wallets())}>
-                                        {(walletName) => (
-                                            <div class="card">
-                                                <button class="button" onClick={() => connectToWallet(wallets()[walletName])}>
-                                                <li>
-                                                    <div class="start">
-                                                        <img src={wallets()[walletName].icon} width="25" height="25" />
-                                                    </div>
-                                                    <div class="text">
-                                                        <h2>{walletName}</h2>
-                                                    </div>
-                                                </li>
-                                                </button>
-                                            </div>
-                                        )}
+                                        {
+
+                                            (walletName) => (
+                                                <div class="card">
+                                                    <button class="button" onClick={() => connectToWallet(wallets()[walletName])}>
+                                                    <li>
+                                                        <div class="start">
+                                                            <img src={wallets()[walletName].icon} width="25" height="25" />
+                                                        </div>
+                                                        <div class="text">
+                                                            <h2>{walletName}</h2>
+                                                        </div>
+                                                    </li>
+                                                    </button>
+                                                </div>
+                                                
+                                            )
+                                        }
                                     </For>
                                 ) : (
                                     <p>No wallets found.</p>
@@ -85,7 +95,7 @@ export function CardanoWalletConnectComponent() {
                 </div>
             </dialog>
             {
-                console.log("wallets: ", wallets(), wallets.loading)
+                // console.log("wallets: ", wallets(), wallets.loading)
             }        
         </>
     );
