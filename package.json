@@ -1,17 +1,17 @@
 {
-  "name": "{{name_of_lib}}",
+  "name": "cardano-wallet-connect-solidjs-component",
   "version": "0.0.0",
-  "description": "{{desc_of_lib}}",
+  "description": "A Cardano wallet connect component created in SolidLS",
   "license": "MIT",
-  "author": "{{me}}",
+  "author": "bakon",
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/{{me}}/{{name_of_lib}}.git"
+    "url": "git+https://github.com/HarmonicLabs/cardano-wallet-connect-solidjs-component.git"
   },
-  "homepage": "https://github.com/{{me}}/{{name_of_lib}}#readme",
+  "homepage": "https://github.com/HarmonicLabs/cardano-wallet-connect-solidjs-component#readme",
   "bugs": {
-    "url": "https://github.com/{{me}}/{{name_of_lib}}/issues"
+    "url": "https://github.com/HarmonicLabs/cardano-wallet-connect-solidjs-component/issues"
   },
   "files": [
     "dist"
@@ -83,5 +83,8 @@
   "engines": {
     "node": ">=18",
     "pnpm": ">=9.0.0"
+  },
+  "dependencies": {
+    "opbeta": "npm:open-props@^2.0.0-beta.5"
   }
 }

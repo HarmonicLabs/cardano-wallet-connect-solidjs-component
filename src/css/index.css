@@ -1,0 +1,19 @@
+@layer openprops, normalize, utils, theme, components.base, components.has-deps;
+@import "opbeta/css/media-queries.css";
+@import "opbeta/index.css" layer(openprops);
+@import "opbeta/utilities.css" layer(utils);
+@import "opbeta/normalize.css" layer(normalize);
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
