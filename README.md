@@ -1,5 +1,5 @@
 <p>
-  <img width="100%" src="https://assets.solidjs.com/banner?type=CardanoWalletConnectComponent&background=tiles&project=%20" alt="CardanoWalletConnectComponent">
+  <img width="100%" src="https://assets.solidjs.com/banner?type=CardanoWalletConnectComponent&background=tiles&project=%20" alt="cardano-wallet-connect-solidjs-component">
 </p>
 
 # cardano-wallet-connect-solidjs-component
