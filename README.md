@@ -2,11 +2,11 @@
   <img width="100%" src="https://assets.solidjs.com/banner?type={{name_of_lib}}&background=tiles&project=%20" alt="{{name_of_lib}}">
 </p>
 
-# {{name_of_lib}}
+# {{cardano-wallet-connect-solidjs-component}}
 
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
 
-{{desc_of_lib}}
+{{cardano-wallet-connect-solidjs-component}}
 
 > **Note** After using this template, you have to search and replace all `{{name_of_lib}}` and similar strings
 > with appropriate texts.
