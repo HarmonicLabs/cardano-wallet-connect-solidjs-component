@@ -23,7 +23,7 @@ pnpm add @harmoniclabs/cardano-wallet-connect-solidjs-component @solid-primitive
 Use it:
 
 ```tsx
-import CardanoWalletConnectComponent from 'cardano-wallet-connect-solidjs-component'
+import CardanoWalletConnectComponent from '@harmoniclabs/cardano-wallet-connect-solidjs-component'
 ```
 
 Example:
