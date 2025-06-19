@@ -1,6 +1,6 @@
 {
   "name": "cardano-wallet-connect-solidjs-component",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "A Cardano wallet connect component created in SolidLS",
   "license": "MIT",
   "author": "bakon",

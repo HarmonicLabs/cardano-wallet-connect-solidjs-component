@@ -13,11 +13,11 @@ cardano-wallet-connect-solidjs-component
 Install it:
 
 ```bash
-npm i cardano-wallet-connect-solidjs-component
+npm i @harmoniclabs/cardano-wallet-connect-solidjs-component @solid-primitives/storage
 # or
-yarn add cardano-wallet-connect-solidjs-component
+yarn add @harmoniclabs/cardano-wallet-connect-solidjs-component @solid-primitives/storage
 # or
-pnpm add cardano-wallet-connect-solidjs-component
+pnpm add @harmoniclabs/cardano-wallet-connect-solidjs-component @solid-primitives/storage
 ```
 
 Use it:
