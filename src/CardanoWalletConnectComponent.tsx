@@ -1,19 +1,6 @@
 import { createSignal, createResource, Show, For } from 'solid-js';
 import { makePersisted } from '@solid-primitives/storage';
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  Typography,
-} from '@suid/material';
+import { Button, Menu, MenuItem, ListItemAvatar, Avatar, ListItemText } from '@suid/material';
 
 interface ConnectedWallet {
   walletName: string;
@@ -25,24 +12,25 @@ const getWallets = async () => {
 };
 
 export function CardanoWalletConnectComponent(props: { showName?: boolean }) {
-  const [connectedWallet, setConnectedWallet] = makePersisted(createSignal<ConnectedWallet | null>(null), {
-    name: 'cardanoWallet',
-    serialize: JSON.stringify,
-    deserialize: JSON.parse,
-  });
+  const [connectedWallet, setConnectedWallet] = makePersisted(
+    createSignal<ConnectedWallet | null>(null),
+    {
+      name: 'cardanoWallet',
+      serialize: JSON.stringify,
+      deserialize: JSON.parse,
+    }
+  );
 
   const [wallets] = createResource(getWallets);
-  const [isDialogOpen, setIsDialogOpen] = createSignal(false);
-
-  const openDialog = () => setIsDialogOpen(true);
-  const closeDialog = () => setIsDialogOpen(false);
+  const [isMenuOpen, setIsMenuOpen] = createSignal(false);
+  let buttonRef: HTMLButtonElement | undefined;
 
   async function connectToWallet(wallet: any) {
     if (wallet) {
       try {
         await wallet.enable();
         setConnectedWallet({ walletName: wallet.name });
-        closeDialog();
+        setIsMenuOpen(false); // Close menu after connecting
       } catch (error) {
         return `Failed to connect to ${wallet.name}`;
       }
@@ -51,67 +39,77 @@ export function CardanoWalletConnectComponent(props: { showName?: boolean }) {
     }
   }
 
-  async function disconnectWallet() {
+  function disconnectWallet() {
     setConnectedWallet(null);
-    closeDialog();
+    setIsMenuOpen(false); // Close menu after disconnecting
   }
 
   return (
     <>
-      <Button onClick={openDialog} variant="contained" color="primary">
+      <Button
+        ref={buttonRef}
+        onClick={() => setIsMenuOpen(true)}
+        variant="contained"
+        color="primary"
+      >
         {connectedWallet() === null && 'Connect Wallet'}
         {connectedWallet() !== null && props.showName && `Connected to ${connectedWallet()?.walletName}`}
         {connectedWallet() !== null && !props.showName && 'Disconnect Wallet'}
       </Button>
 
-      <Dialog open={isDialogOpen()} onClose={closeDialog}>
-        <DialogTitle>
-          {connectedWallet() && connectedWallet()?.walletName
-            ? `Connected Wallet ${connectedWallet()?.walletName}`
-            : 'Wallets'}
-        </DialogTitle>
-        <DialogContent>
-          <Typography>
-            {connectedWallet() && connectedWallet()?.walletName
-              ? 'Click on wallet to disconnect'
-              : 'Select which wallet you want to connect.'}
-          </Typography>
-          <Show when={wallets()} fallback={<Typography>Loading...</Typography>}>
-            <List>
-              {connectedWallet() && connectedWallet()?.walletName ? (
-                <ListItem>
-                  <ListItemButton onClick={disconnectWallet}>
-                    <ListItemAvatar>
-                      <Avatar src={connectedWallet()?.walletName ? (window as any).cardano[connectedWallet()!.walletName].icon : undefined} />
-                    </ListItemAvatar>
-                    <ListItemText primary={connectedWallet()?.walletName} secondary="Disconnect" />
-                  </ListItemButton>
-                </ListItem>
-              ) : Object.keys(wallets()!).length > 0 ? (
-                <For each={Object.keys(wallets()!)}>
+      <Menu
+        anchorEl={buttonRef}
+        open={isMenuOpen()}
+        onClose={() => setIsMenuOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        PaperProps={{
+          style: {
+            'background-color': '#333', // Dark background as in images
+            color: 'white', // White text for contrast
+            'border-radius': '8px', // Rounded corners
+            'min-width': '200px', // Slightly wider than button
+          },
+        }}
+      >
+        <Show when={wallets()} fallback={<MenuItem disabled><ListItemText primary="Loading..." /></MenuItem>}>
+          {connectedWallet() ? (
+            <>
+              <MenuItem disabled>
+                <ListItemText primary="Connected Wallet" />
+              </MenuItem>
+              <MenuItem onClick={disconnectWallet}>
+                <ListItemAvatar>
+                  <Avatar src={(window as any).cardano[connectedWallet()!.walletName].icon} />
+                </ListItemAvatar>
+                <ListItemText primary={connectedWallet()?.walletName} secondary="Disconnect" />
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem disabled>
+                <ListItemText primary="Select your wallet" />
+              </MenuItem>
+              {Object.keys(wallets()).length > 0 ? (
+                <For each={Object.keys(wallets())}>
                   {(walletName) => (
-                    <ListItem>
-                      <ListItemButton onClick={() => connectToWallet(wallets()![walletName])}>
-                        <ListItemAvatar>
-                          <Avatar src={wallets()![walletName].icon} />
-                        </ListItemAvatar>
-                        <ListItemText primary={walletName} secondary="Connect" />
-                      </ListItemButton>
-                    </ListItem>
+                    <MenuItem onClick={() => connectToWallet(wallets()![walletName])}>
+                      <ListItemAvatar>
+                        <Avatar src={wallets()![walletName].icon} />
+                      </ListItemAvatar>
+                      <ListItemText primary={walletName} secondary="Connect" />
+                    </MenuItem>
                   )}
                 </For>
               ) : (
-                <ListItem>
+                <MenuItem disabled>
                   <ListItemText primary="No wallets found." />
-                </ListItem>
+                </MenuItem>
               )}
-            </List>
-          </Show>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
+            </>
+          )}
+        </Show>
+      </Menu>
     </>
   );
 }

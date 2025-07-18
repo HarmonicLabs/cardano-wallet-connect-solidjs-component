@@ -1,6 +1,6 @@
 {
   "name": "cardano-wallet-connect-solidjs-component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Cardano wallet connect component created in SolidLS",
   "license": "MIT",
   "author": "bakon",
@@ -42,52 +42,35 @@
   "typesVersions": {},
   "scripts": {
     "dev": "vite serve dev",
-    "build": "tsup",
-    "test": "concurrently pnpm:test:*",
-    "test:client": "vitest",
-    "test:ssr": "pnpm run test:client --mode ssr",
-    "prepublishOnly": "pnpm build",
-    "format": "prettier --ignore-path .gitignore -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" \"dev/**/*.{js,ts,json,css,tsx,jsx}\"",
-    "lint": "concurrently pnpm:lint:*",
-    "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 src/**/*.{js,ts,tsx,jsx}",
-    "lint:types": "tsc --noEmit",
-    "update-deps": "pnpm up -Li"
+    "start": "vite",
+    "build": "tsup"
   },
   "peerDependencies": {
     "solid-js": "^1.6.0"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "@typescript-eslint/eslint-plugin": "^7.9.0",
-    "@typescript-eslint/parser": "^7.9.0",
-    "concurrently": "^8.2.2",
-    "esbuild": "^0.21.3",
-    "esbuild-plugin-solid": "^0.6.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-no-only-tests": "^3.1.0",
-    "jsdom": "^24.0.0",
-    "prettier": "3.0.0",
-    "solid-js": "^1.8.17",
-    "tsup": "^8.0.2",
-    "tsup-preset-solid": "^2.2.0",
-    "typescript": "^5.4.5",
+    "@suid/types": "^0.8.0",
+    "@suid/vite-plugin": "^0.4.1",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-solid": "^2.11.6",
-    "@suid/vite-plugin": "^0.4.0",
-    "vitest": "^1.6.0"
-  },
-  "keywords": [
-    "solid"
-  ],
-  "packageManager": "pnpm@9.1.1",
-  "engines": {
-    "node": ">=18",
-    "pnpm": ">=9.0.0"
+    "vite-plugin-node-polyfills": "^0.24.0",
+    "vite-plugin-solid": "^2.11.7",
+    "vite-plugin-top-level-await": "^1.5.0",
+    "tsup": "^8.0.2",
+    "tsup-preset-solid": "^2.2.0"
   },
   "dependencies": {
+    "@harmoniclabs/blockfrost-pluts": "^0.2.4",
+    "@harmoniclabs/buildooor": "0.1.14",
+    "@lucid-evolution/lucid": "^0.4.29",
+    "@solidjs/router": "^0.15.3",
+    "@suid/css": "^0.4.1",
+    "@suid/site": "^0.21.2",
     "@solid-primitives/storage": "^4.3.2",
     "@suid/icons-material": "^0.9.0",
-    "@suid/material": "^0.19.0"
+    "@suid/material": "^0.19.0",
+    "bip39": "^3.1.0",
+    "opbeta": "npm:open-props@^2.0.0-beta.5",
+    "solid-js": "^1.9.7"
   }
 }
