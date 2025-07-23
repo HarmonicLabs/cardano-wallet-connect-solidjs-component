@@ -1,6 +1,6 @@
 import { createSignal, createResource, Show, For } from 'solid-js';
 import { makePersisted } from '@solid-primitives/storage';
-import { Button, Menu, MenuItem, ListItemAvatar, Avatar, ListItemText } from '@suid/material';
+import { Button, Menu, MenuItem, ListItemAvatar, Avatar, ListItemText, useTheme } from '@suid/material';
 
 interface ConnectedWallet {
   walletName: string;
@@ -12,6 +12,7 @@ const getWallets = async () => {
 };
 
 export function CardanoWalletConnectComponent(props: { showName?: boolean }) {
+  const theme = useTheme();
   const [connectedWallet, setConnectedWallet] = makePersisted(
     createSignal<ConnectedWallet | null>(null),
     {
@@ -30,7 +31,7 @@ export function CardanoWalletConnectComponent(props: { showName?: boolean }) {
       try {
         await wallet.enable();
         setConnectedWallet({ walletName: wallet.name });
-        setIsMenuOpen(false); // Close menu after connecting
+        setIsMenuOpen(false);
       } catch (error) {
         return `Failed to connect to ${wallet.name}`;
       }
@@ -41,7 +42,7 @@ export function CardanoWalletConnectComponent(props: { showName?: boolean }) {
 
   function disconnectWallet() {
     setConnectedWallet(null);
-    setIsMenuOpen(false); // Close menu after disconnecting
+    setIsMenuOpen(false);
   }
 
   return (
@@ -64,11 +65,11 @@ export function CardanoWalletConnectComponent(props: { showName?: boolean }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         PaperProps={{
-          style: {
-            'background-color': '#333', // Dark background as in images
-            color: 'white', // White text for contrast
-            'border-radius': '8px', // Rounded corners
-            'min-width': '200px', // Slightly wider than button
+          sx: {
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            borderRadius: theme.shape.borderRadius,
+            minWidth: '200px',
           },
         }}
       >
